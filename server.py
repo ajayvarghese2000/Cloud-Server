@@ -34,7 +34,6 @@ import uvicorn
 import socketio
 from dataclass import DataModel
 
-
 # Creating the FastAPI Server object
 app = FastAPI()
 
@@ -61,7 +60,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Displaying the GUI on load to the base domin
+# Displaying the GUI on load to the base domain
 @app.get("/")
 async def gui():
     # Returns the GUI that is loaded from html variable
@@ -70,7 +69,7 @@ async def gui():
 # URL for the drones to upload data to. Requires a drone name to be passed.
 # See docs for the format in which the data is passed
 @app.post("/uploaddata/{dname}")
-async def uploadcam(dname, data : DataModel):
+async def uploaddata(dname, data : DataModel):
     
     # Creates/Opens the data file with the name of the drone
     with open('data/drones/' + dname + '.json', 'w') as buffer:
@@ -81,11 +80,106 @@ async def uploadcam(dname, data : DataModel):
         # Returns a success message
         return {"code" : 200 , "message" : "Success"}
 
+# URL to regsistar a new drone with the server, must send a drone ID
+# All drone must do this before sending data over otherwise the GUI will
+# not list the drone as accessible. 
+@app.post('/drones/{dname}')
+async def registarnewdrone(dname:int):
 
+    # Loads the current list of drones
+    with open('data/drones.json', "r") as old_f:
+
+        # Attempts to read it as a JSON file
+        try:
+
+            # Loading the file as a JSON object
+            old = json.load(old_f)
+
+            # Creating the payload to be added to the file
+            payload = {"id" : dname, "status" : 1}
+
+            # Deleting any duplicates that may exist
+            for i, data in enumerate(old["drones"]):
+                if data["id"] == dname:
+                    del old["drones"][i]
+
+            # Adding the new Drone to the list
+            old["drones"].append(payload)
+
+            # Writing the updated data to the file
+            with open('data/drones.json', "w") as new_f:
+                json.dump(old, new_f, indent=4)
+
+            # Returns a success message
+            return {"code" : 200 , "message" : "Success"}
+        
+        # If the read fails, normally due to a race condition, server throws an error
+        except:
+
+            # Retuning the 500 error code
+            return {"code" : 500 , "message" : "Internal Server Error, try again"}
+
+# URL to remove a drone, must pass in the drone ID
+# When the drone finishes it must remove it self from the active list
+# The GUI will otherwise show a drone that isn't sending any data
+@app.post('/removedrone/{dname}')
+async def removedrone(dname:int):
+
+    # Opens the list of drones registered
+    with open('data/drones.json', "r") as old_f:
+
+        # Attempts to read it as a JSON file
+        try:
+
+            # Loading the file as a JSON object
+            old = json.load(old_f)
+            
+            # Deleting all entries with the drone ID supplied
+            for i, data in enumerate(old["drones"]):
+                if data["id"] == dname:
+                    del old["drones"][i]
+            
+            # Writing the new data to the file
+            with open('data/drones.json', "w") as new_f:
+                json.dump(old, new_f, indent=4)
+            
+            # Returns a success message
+            return {"code" : 200 , "message" : "Success"}
+        
+        # If the read fails, normally due to a race condition, server throws an error
+        except:
+
+            # Retuning the 500 error code
+            return {"code" : 500 , "message" : "Internal Server Error"}
+
+# URL to get the list of registered drones
+# Will be used by the GUI to show the user what drones are connected
+@app.get('/drones')
+async def getdrones():
+
+    # Opens the list of drones registered
+    with open('data/drones.json', "r") as drones:
+        
+        # Attempts to read it as a JSON file
+        try:
+            # Loading the file as a JSON object
+            data = json.load(drones)
+
+            # Returns the data
+            return data
+        
+        # If the read fails, normally due to a race condition, server throws an error
+        except:
+
+            # Retuning the 500 error code
+            return {"code" : 500 , "message" : "Internal Server Error"}
+
+# SocketIO handler for when a new client connects
 @sio.on("connect")
 async def connect(sid, env):
     print("New Client connected ", sid)
 
+# SocketIO handler for when a client disconnects
 @sio.on("disconnect")
 async def disconnect(sid):
     print("Client disconnected ", sid)

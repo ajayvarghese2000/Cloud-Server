@@ -17,11 +17,12 @@ class Gas(BaseModel):
 
 
 class DataModel(BaseModel):
+    dname : int
     temp : float
     pressure : float
     humidity : float
     lux : float
-    geiger : float
+    geiger : int
     gas : Gas
     air : Air
     gps : GPS
