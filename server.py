@@ -25,19 +25,19 @@
 #
 
 ## [Imports]
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
-import json
-import uvicorn
-import socketio
-from dataclass import DataModel
+from fastapi import FastAPI                         # Used to create and run the FastAPI service
+from fastapi.responses import HTMLResponse          # Used to display static html files i.e dashboard
+from fastapi.staticfiles import StaticFiles         # Used to mount static directories
+from fastapi.middleware.cors import CORSMiddleware  # Used to set CORS
+import json                                         # Used to parse and analyse data received
+import uvicorn                                      # The ASGI that will run the service
+import socketio                                     # Used to create and run the SocketIO service
+from dataclass import DataModel                     # Used to validate the data format
 
 # Creating the FastAPI Server object
 app = FastAPI()
 
-# Creating the SocketIO Server object, setting CORS and increaing data limit to 10Mb
+# Creating the SocketIO Server object, setting CORS and increasing data limit to 10Mb and timeout intervals
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[], ping_interval = (7200,7200), ping_timeout = 7200, max_http_buffer_size = 10000000)
 socket_app = socketio.ASGIApp(sio)
 
@@ -183,21 +183,33 @@ async def getdrones():
 # SocketIO handler for when a new client connects
 @sio.on("connect")
 async def connect(sid, env):
+    
+    # Prints a connection message and their session ID
     print("New Client connected ", sid)
 
 # SocketIO handler for when a client disconnects
 @sio.on("disconnect")
 async def disconnect(sid):
+    
+    # Prints a disconnection message and their session ID
     print("Client disconnected ", sid)
 
+# SocketIO handler for when a drone sends data
 @sio.on("getdata")
 async def getdata(sid, mes):
+
+    # Gets the drone ID from the data to add a websocket label to emit to
     id = str(mes["dname"])
+
+    # Debug statement to print what device id gave what message
     #print("New Data from " + id + " Received")
+
+    # Forwarding the data sent by the drone to the correct label
     await sio.emit(id,mes)
 
+# Starting the uvicorn server
 if __name__ == "__main__":
-    kwargs = {"host": "0.0.0.0", "port": 80}
+    kwargs = {"host": "0.0.0.0", "port": 80, "workers" : 4}
     kwargs.update({"debug": False, "reload": False})
     uvicorn.run("server:app", **kwargs)
 
