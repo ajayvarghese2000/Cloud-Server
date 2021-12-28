@@ -38,7 +38,7 @@ from dataclass import DataModel
 app = FastAPI()
 
 # Creating the SocketIO Server object, setting CORS and increaing data limit to 10Mb
-sio = socketio.AsyncServer(async_mode="asgi",cors_allowed_origins=[], max_http_buffer_size = 10000000)
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[], ping_interval = (7200,7200), ping_timeout = 7200, max_http_buffer_size = 10000000)
 socket_app = socketio.ASGIApp(sio)
 
 # Opening the GUI as a file
@@ -66,6 +66,11 @@ async def gui():
     # Returns the GUI that is loaded from html variable
     return HTMLResponse(html)
 
+'''
+# This is now a legacy method - It has been switched to a SocketIO method
+
+############################## DO NOT USE ##############################
+
 # URL for the drones to upload data to. Requires a drone name to be passed.
 # See docs for the format in which the data is passed
 @app.post("/uploaddata/{dname}")
@@ -79,6 +84,7 @@ async def uploaddata(dname, data : DataModel):
 
         # Returns a success message
         return {"code" : 200 , "message" : "Success"}
+'''
 
 # URL to regsistar a new drone with the server, must send a drone ID
 # All drone must do this before sending data over otherwise the GUI will
@@ -183,6 +189,13 @@ async def connect(sid, env):
 @sio.on("disconnect")
 async def disconnect(sid):
     print("Client disconnected ", sid)
+
+@sio.on("getdata")
+async def getdata(sid, mes):
+    id = str(mes["dname"])
+    data = json.dumps(str(mes))
+    print("New Data from " + id + " Received")
+    await sio.emit(id,data)
 
 
 '''@sio.on("getframe")
