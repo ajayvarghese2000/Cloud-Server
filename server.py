@@ -193,9 +193,8 @@ async def disconnect(sid):
 @sio.on("getdata")
 async def getdata(sid, mes):
     id = str(mes["dname"])
-    data = json.dumps(str(mes))
-    print("New Data from " + id + " Received")
-    await sio.emit(id,data)
+    #print("New Data from " + id + " Received")
+    await sio.emit(id,mes)
 
 
 '''@sio.on("getframe")
