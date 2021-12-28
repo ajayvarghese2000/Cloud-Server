@@ -196,20 +196,6 @@ async def getdata(sid, mes):
     #print("New Data from " + id + " Received")
     await sio.emit(id,mes)
 
-
-'''@sio.on("getframe")
-async def getframe(sid,mes):
-    data = loadframe(0)
-    await sio.emit("BASE64SEND", data)
-'''
-'''def loadframe(d_name):
-    with open("static/img/s.png", "rb") as pic:
-        encoded = base64.b64encode(pic.read())
-        encoded = encoded.decode("utf-8")
-        return encoded
-
-'''
-
 if __name__ == "__main__":
     kwargs = {"host": "0.0.0.0", "port": 80}
     kwargs.update({"debug": False, "reload": False})
