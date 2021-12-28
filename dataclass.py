@@ -1,3 +1,5 @@
+# Class structure for the schema of the incoming data
+
 from pydantic import BaseModel
 
 class GPS(BaseModel):
