@@ -1,7 +1,8 @@
 
 // Create SocketIO instance, connect
+var URL = window.location.protocol + "//" + window.location.host;
 
-var socket = new io('http://localhost', {
+var socket = new io(URL, {
   path: "/ws/socket.io/"
 });
 
