@@ -84,8 +84,10 @@ if __name__ == "__main__":
 Here you can change/add variables to the uvicorn instance.
 
 `host` Allows you to bing the server to an IP address, `0.0.0.0` binds the server to all available IP's.
+
 `port` Allows you to select what port to bind the server to.
-`workers` Allows you to create multiple instances of the server to handel load management. 
+
+`workers` Allows you to create multiple instances of the server to handle load management. 
 
 For a full list of available options refer to the [uvicorn deployment docs](https://www.uvicorn.org/deployment/)
 
@@ -124,6 +126,10 @@ The server comes with a utility to test out the HTTP request endpoints. To view 
 ### HTTP Endpoints
 #### [GET] - / - GUI
 This is the root endpoint, it will allow the user to see and interact with the dashboard, it returns a HTML page
+
+<p align="center">
+	<img src="https://github.com/ajayvarghese2000/Dashboard/raw/main/docs/img/Dashbaord%20Login.gif?raw=true"/>
+</p>
 
 #### [GET] - /drones - Gets the drones
 This endpoint returns the list of drones currently registered onto the server. It is used by the dashboard to show the user what drones are currently connected
