@@ -33,8 +33,24 @@ Full documentation for those services can be found at the links below:
 ## Table of Contents
 
 - [Installation](#Installation)
-- [Getting Started](#Getting-Started)
 - [Deployment](#Deployment)
+    - [Systemctl Service](#systemctl-service)
+- [API Endpoints](#api-endpoints)
+    - [HTTP Endpoints](#http-endpoints)
+        - [GUI](#get------gui)
+        - [Return Drone List](#get---drones---gets-the-drones)
+            - [Return Schema](#return-schema)
+        - [Registers New Drone](#post---dronesdname---registers-a-new-drone)
+            - [Return Schema](#return-schema-1)
+        - [Removes a Drone](#post---removedronedname---removes-a-drone)
+            - [Return Schema](#return-schema-2)
+    - [SocketIO Event Listeners](#socketio-event-listeners)
+        - [Connect](#connect---happens-on-a-new-connection)
+        - [Disconnect](#disconnect---happens-on-a-disconnect)
+        - [Getdata](#getdata---when-a-drone-sends-new-data)
+            - [Data Packet Schema](#data-packet-schema)
+            - [Base64 Encoded Images](#what-are-base64-encoded-images)
+        - [What is a Websocket](#what-is-a-websocket)
 
 ------------
 
@@ -136,7 +152,7 @@ It returns a JSON object in the following form:
 }
 ```
 
-#### [POST] - /removedrone/{dname} - Registers a new drone
+#### [POST] - /removedrone/{dname} - Removes a drone
 This endpoint allows a drone to be removed from the server. You must supply a drone name which should be an positive integer. It is used by the drones to remove themselves frome the active list in the server.
 ##### Return Schema
 It returns a JSON object in the following form:
