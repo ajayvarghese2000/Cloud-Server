@@ -26,7 +26,7 @@
 
 ## [Imports]
 from fastapi import FastAPI                         # Used to create and run the FastAPI service
-from fastapi.responses import HTMLResponse          # Used to display static html files i.e dashboard
+from fastapi.responses import RedirectResponse      # Used to display static html files i.e dashboard
 from fastapi.staticfiles import StaticFiles         # Used to mount static directories
 from fastapi.middleware.cors import CORSMiddleware  # Used to set CORS
 import json                                         # Used to parse and analyse data received
@@ -59,6 +59,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+async def redirect():
+    response = RedirectResponse(url='/gui')
+    return response
 
 '''
 # This is now a legacy method - It has been switched to a SocketIO method
