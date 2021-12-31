@@ -44,8 +44,8 @@ socket_app = socketio.ASGIApp(sio)
 # Opening the GUI as a file
 html = open("static/index.html").read()
 
-# Mounting the static folder onto the URL
-app.mount("/static", StaticFiles(directory="static/", html = True), name="static")
+# Mounting the GUI onto the base URL
+app.mount("/", StaticFiles(directory="Dashboard/src", html = True), name="GUI")
 
 # Mounting the SocketIO Server to the '/ws' URL
 app.mount("/ws", socket_app)
@@ -59,12 +59,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Displaying the GUI on load to the base domain
-@app.get("/")
-async def gui():
-    # Returns the GUI that is loaded from html variable
-    return HTMLResponse(html)
 
 '''
 # This is now a legacy method - It has been switched to a SocketIO method
@@ -209,7 +203,7 @@ async def getdata(sid, mes):
 
 # Starting the uvicorn server
 if __name__ == "__main__":
-    kwargs = {"host": "0.0.0.0", "port": 80, "workers" : 4}
+    kwargs = {"host": "0.0.0.0", "port": 80, "workers" : 1}
     kwargs.update({"debug": False, "reload": False})
     uvicorn.run("server:app", **kwargs)
 
