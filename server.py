@@ -45,7 +45,7 @@ socket_app = socketio.ASGIApp(sio)
 html = open("static/index.html").read()
 
 # Mounting the GUI onto the base URL
-app.mount("/", StaticFiles(directory="Dashboard/src", html = True), name="GUI")
+app.mount("/gui", StaticFiles(directory="Dashboard/src", html = True), name="GUI")
 
 # Mounting the SocketIO Server to the '/ws' URL
 app.mount("/ws", socket_app)
