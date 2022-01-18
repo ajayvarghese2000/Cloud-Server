@@ -6,10 +6,10 @@
 
 <p align="center">
 	<a href="https://github.com/lboroWMEME-TeamProject/CCC-ProjectDocs"><img src="https://i.imgur.com/rBaZyub.png" alt="drawing" height = 33/></a> 
-	<a href="https://github.com/ajayvarghese2000/Dashboard"><img src="https://i.imgur.com/fz7rgd9.png" alt="drawing" height = 33/></a> 
-	<a href="https://github.com/ajayvarghese2000/Cloud-Server"><img src="https://i.imgur.com/bsimXcV.png" alt="drawing" height = 33/></a> 
+	<a href="https://github.com/lboroWMEME-TeamProject/Dashboard"><img src="https://i.imgur.com/fz7rgd9.png" alt="drawing" height = 33/></a> 
+	<a href="https://github.com/lboroWMEME-TeamProject/Cloud-Server"><img src="https://i.imgur.com/bsimXcV.png" alt="drawing" height = 33/></a> 
 	<a><img src="https://i.imgur.com/yKFokIL.png" alt="drawing" height = 33/></a> 
-	<a href="https://github.com/ajayvarghese2000/Simulated-Drone"><img src="https://i.imgur.com/WMOZbrf.png" alt="drawing" height = 33/></a>
+	<a href="https://github.com/lboroWMEME-TeamProject/Simulated-Drone"><img src="https://i.imgur.com/WMOZbrf.png" alt="drawing" height = 33/></a>
 </p>
 
 ------------
@@ -57,7 +57,7 @@ Full documentation for those services can be found at the links below:
 ## Installation
 First clone the repository to a directory on your system. If you have git installed you can use the following command.
 ```
-git clone https://github.com/ajayvarghese2000/Cloud-Server.git
+git clone https://github.com/lboroWMEME-TeamProject/Cloud-Server.git
 ```
 This program is written in python 3, if you don't have it installed download it from the [python website](https://www.python.org/downloads/).
 Once python is installed open up a terminal in the directory you cloned the repository and install the dependencies required using pip. It is recommended to use a python virtual environment to avoid conflicts.
@@ -128,7 +128,7 @@ The server comes with a utility to test out the HTTP request endpoints. To view 
 This is the root endpoint, it will allow the user to see and interact with the dashboard, it returns a HTML page
 
 <p align="center">
-	<img src="https://github.com/ajayvarghese2000/Dashboard/raw/main/docs/img/Dashbaord%20Login.gif?raw=true"/>
+	<img src="https://github.com/lboroWMEME-TeamProject/Dashboard/raw/main/docs/img/Dashbaord%20Login.gif?raw=true"/>
 </p>
 
 #### [GET] - /drones - Gets the drones
