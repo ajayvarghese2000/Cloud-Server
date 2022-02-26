@@ -211,6 +211,7 @@ The data the drone sends must follow the following schema. Its is a JSON packet.
   	},
   	"cam": base64,		# The image from the object-detection camera base64 encoded
   	"tcam": base64		# The image from the thermal camera base64 encoded
+	"person" : bool		# See if a person was detected or not
 }
 ```
 Most of the data in the data packet is self-explanatory with exception of the base64 encoded images.
