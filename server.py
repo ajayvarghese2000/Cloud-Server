@@ -214,4 +214,12 @@ if __name__ == "__main__":
     uvicorn.run("server:app", **kwargs)
 
 
+'''
+# Starting the uvicorn server on SSL mode
+if __name__ == "__main__":
+    Popen(['python3', '-m', 'https_redirect'])
+    kwargs = {"host": "0.0.0.0", "port": 443, "workers" : 1, "ssl_keyfile" : "/etc/letsencrypt/live/ajayvarghese.me/privkey.pem", "ssl_certfile" : "/etc/letsencrypt/live/ajayvarghese.me/fullchain.pem"}
+    kwargs.update({"debug": False, "reload": False})
+    uvicorn.run("server:app", **kwargs)
 
+'''
