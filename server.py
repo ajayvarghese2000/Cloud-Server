@@ -32,7 +32,6 @@ from fastapi.middleware.cors import CORSMiddleware  # Used to set CORS
 import json                                         # Used to parse and analyse data received
 import uvicorn                                      # The ASGI that will run the service
 import socketio                                     # Used to create and run the SocketIO service
-from dataclass import DataModel                     # Used to validate the data format
 
 # Creating the FastAPI Server object
 app = FastAPI()
