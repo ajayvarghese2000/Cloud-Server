@@ -32,6 +32,7 @@ from fastapi.middleware.cors import CORSMiddleware  # Used to set CORS
 import json                                         # Used to parse and analyse data received
 import uvicorn                                      # The ASGI that will run the service
 import socketio                                     # Used to create and run the SocketIO service
+from subprocess import Popen                        # Used to Open the SSL version of the server
 
 # Creating the FastAPI Server object
 app = FastAPI()
@@ -206,6 +207,7 @@ async def getdata(sid, mes):
     # Forwarding the data sent by the drone to the correct label
     await sio.emit(id,mes)
 
+'''
 # Starting the uvicorn server
 if __name__ == "__main__":
     kwargs = {"host": "0.0.0.0", "port": 80, "workers" : 1}
@@ -221,4 +223,4 @@ if __name__ == "__main__":
     kwargs.update({"debug": False, "reload": False})
     uvicorn.run("server:app", **kwargs)
 
-'''
+
