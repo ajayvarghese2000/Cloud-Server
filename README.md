@@ -51,6 +51,7 @@ Full documentation for those services can be found at the links below:
             - [Data Packet Schema](#data-packet-schema)
             - [Base64 Encoded Images](#what-are-base64-encoded-images)
         - [What is a Websocket](#what-is-a-websocket)
+- [Test Plan](#Test-Plan)
 
 ------------
 
@@ -251,3 +252,17 @@ Then when the server is ready is can load the queue and process however it wants
 </p>
 
 As the data from the drone needs to be shown in real-time once the drone registers a websocket is opened that it can send data to.
+
+## Test Plan
+
+<div align="center">
+
+|Objective|Testing Strategy|Expected Output|Current Output|Pass/Fail|
+|--|--|--|--|:--:|
+|Show the GUI when a user visits the home URL `/`|Use a web browser to visit the home URL and observe the result|The dashboard should be shown and the user should be prompted to login|The dashboard is shown and the user is prompted to login|:heavy_check_mark:|
+|Return a JSON object filled with the drones that are currently connected to the server when a GET request is processed on the `/drones` endpoint|Use the built-in API endpoint tester to send a GET request to the server and observer the result|The server should return a JSON object with the ID's of the drones connected to the server at any given point|The server does return a JSON object of the drones connected to the server|:heavy_check_mark:|
+|Needs to add a new drone to the list of drones connected when a new drone connects to the server using the API endpoint ` /drones/{dname}`|Use the simulated drone tool to register itself with the server, then verify it's successes using the `/drones` API endpoint.|The server should return a JSON object indicating if it could successfully add a new drone to the connected drone list or not.|The Server returns a JSON object with a 200 status code indicating a success which can be verifiable using the `/drones` endpoint or the GUI.|:heavy_check_mark:|
+|Needs to remove a drone from the list of connected drones when a drone disconnects using the API endpoint `/removedrone/{dname}`|Us the simulated drone tool to disconnect from the server, then verify it's successes using the `/drones` API endpoint.|The server should return a JSON object indicating if it could successfully remove the drone from the connected drone list or not.|The Server returns a JSON object with a 200 status code indicating a success which can be verifiable using the `/drones` endpoint or the GUI.|:heavy_check_mark:|
+|Open a websocket with the drones ID when a drone connects and emmit the data the drone sends to the server to that websocket|Use the simulated drone tool to connect to and send data to the server then listen to the response on the websocket with the drone ID to see if the server echoes the data sent back.|The console of the simulated drone should display the data it sent to the server/The data should be shown on the GUI|The console does echo the data the drone sent and the GUI does show the data.|:heavy_check_mark:|
+
+</div>
